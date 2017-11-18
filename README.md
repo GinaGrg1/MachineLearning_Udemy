@@ -1,1 +1,6 @@
-# MachineLearning_Udemy
+# MachineLearning course from Udemy
+
+### Lesson 1
+```
+Data preprocessing.
+```
