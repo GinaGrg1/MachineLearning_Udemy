@@ -37,7 +37,7 @@ plt.plot(X_train, regressor.predict(X_train), color = 'blue') #regression/predic
 plt.title('Salary vs Experience (Training set)')
 plt.xlabel('Years of experience')
 plt.ylabel('Salary')
-plt.sho()
+plt.show()
 
 # Next we need to plot the test sets against the blue (regression) line.
 plt.scatter(X_test, y_test, color = 'red')
@@ -46,6 +46,6 @@ plt.plot(X_train, regressor.predict(X_train), color = 'blue') #regression/predic
 plt.title('Salary vs Experience (Test set)')
 plt.xlabel('Years of experience')
 plt.ylabel('Salary')
-plt.sho()
+plt.show()
 
 
