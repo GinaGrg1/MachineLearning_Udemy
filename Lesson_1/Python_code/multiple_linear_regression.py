@@ -1,12 +1,10 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 """
 Created on Tue Nov 21 22:12:50 2017
 
 @author: ReginaGurung
 """
 # Multiple Linear Regression
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -36,10 +34,39 @@ from sklearn.cross_validation import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
 
 # Feature scaling is not required as its also done by the library.
-# Feature Scaling
-'''from sklearn.preprocessing import StandardScaler
-sc_X = StandardScaler()
-X_train = sc_X.fit_transform(X_train)
-X_test = sc_X.transform(X_test)
-sc_y = StandardScaler()
-y_train = sc_y.fit_transform(y_train)'''
+
+# Fitting Multiple Linear Regression to the training set.
+from sklearn.linear_model import LinearRegression
+regressor = LinearRegression()
+regressor.fit(X_train, y_train) # simliar to doing lm(y ~ x) in R
+
+# Predicting the Test set results
+y_pred = regressor.predict(X_test)
+
+# Building the optimal model using Backward Elimination.
+import statsmodels.formula.api as sm
+# create a new column with 1's. This new col corresponds to X0 term or the intercept.
+X = np.append(arr = np.ones((50, 1)).astype(int), # 50 rows and 1 column.
+              values = X,
+              axis = 1) 
+
+# X optimal will only consists of predictors which are statistically significant.
+X_Optimal = X[:, [0, 1, 2, 3, 4, 5]] # indices of the predictors.
+regressor_OLS = sm.OLS(endog = y, exog = X_Optimal).fit() #Ordinary Least Squares. Stp 2 of BE.
+regressor_OLS.summary()
+# Here x2 has the highest p-value so we remove this variable from X_Optimal.
+X_Optimal = X[:, [0, 1, 3, 4, 5]] # indices of the predictors.
+regressor_OLS = sm.OLS(endog = y, exog = X_Optimal).fit() #Ordinary Least Squares. Stp 2 of BE.
+regressor_OLS.summary()
+# Here x1 has the highest p-value
+X_Optimal = X[:, [0, 3, 4, 5]] # indices of the predictors.
+regressor_OLS = sm.OLS(endog = y, exog = X_Optimal).fit() #Ordinary Least Squares. Stp 2 of BE.
+regressor_OLS.summary()
+X_Optimal = X[:, [0, 3, 5]] # indices of the predictors.
+regressor_OLS = sm.OLS(endog = y, exog = X_Optimal).fit() #Ordinary Least Squares. Stp 2 of BE.
+regressor_OLS.summary()
+# The highest p-value now is 0.06 which is still higher than 0.05.
+X_Optimal = X[:, [0, 3]] # indices of the predictors.
+regressor_OLS = sm.OLS(endog = y, exog = X_Optimal).fit() #Ordinary Least Squares. Stp 2 of BE.
+regressor_OLS.summary()
+
