@@ -2,3 +2,4 @@
 *.pdf
 *.Rproj
 *.Rproj.user/
+.Rproj.user
